@@ -56,6 +56,10 @@ public sealed partial class LibraryViewModel : ObservableObject
         if (IsBusy)
             return;
 
+        var confirmed = await ConfirmAsync("Delete movie?", $"Delete \"{movie.Title}\"?").ConfigureAwait(false);
+        if (!confirmed)
+            return;
+
         try
         {
             IsBusy = true;
@@ -83,6 +87,10 @@ public sealed partial class LibraryViewModel : ObservableObject
         if (IsBusy)
             return;
 
+        var confirmed = await ConfirmAsync("Delete TV show?", $"Delete \"{tvShow.Title}\" and its seasons?").ConfigureAwait(false);
+        if (!confirmed)
+            return;
+
         try
         {
             IsBusy = true;
@@ -99,5 +107,14 @@ public sealed partial class LibraryViewModel : ObservableObject
     [RelayCommand]
     Task OpenTvShowAsync(TvShow tvShow)
         => Shell.Current.GoToAsync($"{nameof(Pages.TvShowDetailPage)}?tvShowId={tvShow.Id:D}");
+
+    static Task<bool> ConfirmAsync(string title, string message)
+        => MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (Application.Current?.MainPage is null)
+                return false;
+
+            return await Application.Current.MainPage.DisplayAlert(title, message, "Delete", "Cancel");
+        });
 }
 

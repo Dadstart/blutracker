@@ -37,7 +37,13 @@
                         <Grid Padding="8" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
                             <Label FontAttributes="Bold" Text="{Binding SeasonNumber, StringFormat='S{0}'}" />
                             <Label Grid.Column="1" FontAttributes="Bold" Text=" " />
-                            <Label Grid.Row="1" Grid.ColumnSpan="2" FontSize="12" Opacity="0.7" Text="{Binding EpisodeCount, StringFormat='Episodes: {0}'}" />
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" FontSize="12" Opacity="0.7" Text="{Binding EpisodeCount, StringFormat='Episodes: {0}'}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding EpisodeCount}" Value="{x:Null}">
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
 
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer

@@ -34,7 +34,13 @@
 
                             <Grid Padding="8" RowDefinitions="Auto,Auto">
                                 <Label FontAttributes="Bold" Text="{Binding Title}" />
-                                <Label Grid.Row="1" FontSize="12" Opacity="0.7" Text="{Binding ReleaseYear}" />
+                                <Label Grid.Row="1" FontSize="12" Opacity="0.7" Text="{Binding ReleaseYear}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding ReleaseYear}" Value="{x:Null}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditMovieCommand}"

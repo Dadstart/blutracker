@@ -66,6 +66,10 @@ public sealed partial class TvShowDetailViewModel : ObservableObject
         if (IsBusy)
             return;
 
+        var confirmed = await ConfirmAsync("Delete season?", $"Delete season {season.SeasonNumber}?").ConfigureAwait(false);
+        if (!confirmed)
+            return;
+
         try
         {
             IsBusy = true;
@@ -89,6 +93,10 @@ public sealed partial class TvShowDetailViewModel : ObservableObject
         if (IsBusy || TvShowId == Guid.Empty)
             return;
 
+        var confirmed = await ConfirmAsync("Delete TV show?", $"Delete \"{Title}\" and all seasons?").ConfigureAwait(false);
+        if (!confirmed)
+            return;
+
         try
         {
             IsBusy = true;
@@ -101,5 +109,14 @@ public sealed partial class TvShowDetailViewModel : ObservableObject
 
         await MainThread.InvokeOnMainThreadAsync(() => Shell.Current.GoToAsync("..")).ConfigureAwait(false);
     }
+
+    static Task<bool> ConfirmAsync(string title, string message)
+        => MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (Application.Current?.MainPage is null)
+                return false;
+
+            return await Application.Current.MainPage.DisplayAlert(title, message, "Delete", "Cancel");
+        });
 }
 
