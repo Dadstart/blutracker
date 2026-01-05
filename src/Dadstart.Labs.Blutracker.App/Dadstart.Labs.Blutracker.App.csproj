@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <ApplicationTitle>Blutracker</ApplicationTitle>
+    <ApplicationId>com.dadstart.labs.blutracker</ApplicationId>
+    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <Configurations>Debug;Staging;Release</Configurations>
+    <DefineConstants Condition="'$(Configuration)' == 'Staging'">$(DefineConstants);STAGING</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'windows'">
+    <TargetFrameworks>net8.0-android;net8.0-windows10.0.19041.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'osx'">
+    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'linux'">
+    <TargetFrameworks>net8.0-android</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources/AppIcon/appicon.svg" ForegroundFile="Resources/AppIcon/appiconfg.svg" Color="#512BD4" />
+    <MauiSplashScreen Include="Resources/Splash/splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <MauiImage Include="Resources/Images/*" />
+    <MauiFont Include="Resources/Fonts/*" />
+    <MauiAsset Include="Resources/Raw/**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dadstart.Labs.Blutracker.Core\Dadstart.Labs.Blutracker.Core.csproj" />
+    <ProjectReference Include="..\Dadstart.Labs.Blutracker.Infrastructure.Azure\Dadstart.Labs.Blutracker.Infrastructure.Azure.csproj" />
+    <ProjectReference Include="..\Dadstart.Labs.Blutracker.Infrastructure.Local\Dadstart.Labs.Blutracker.Infrastructure.Local.csproj" />
+  </ItemGroup>
+</Project>
+

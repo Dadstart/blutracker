@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dadstart.Labs.Blutracker.Pages.LibraryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Library">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                <Label FontSize="22" Text="Movies" />
+                <Button Grid.Column="1" Text="Add" Command="{Binding AddMovieCommand}" />
+            </Grid>
+
+            <CollectionView ItemsSource="{Binding Movies}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Padding="8" Spacing="2">
+                            <Label FontAttributes="Bold" Text="{Binding Title}" />
+                            <Label FontSize="12" Opacity="0.7" Text="{Binding ReleaseYear}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <BoxView HeightRequest="1" Opacity="0.2" />
+
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                <Label FontSize="22" Text="TV Shows" />
+                <Button Grid.Column="1" Text="Add" Command="{Binding AddTvShowCommand}" />
+            </Grid>
+
+            <CollectionView ItemsSource="{Binding TvShows}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="8" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                            <Label FontAttributes="Bold" Text="{Binding Title}" />
+                            <Button
+                                Grid.Column="1"
+                                Text="Add season"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddSeasonCommand}"
+                                CommandParameter="{Binding Id}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+
