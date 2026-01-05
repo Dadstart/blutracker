@@ -113,10 +113,15 @@ public sealed partial class TvShowDetailViewModel : ObservableObject
     static Task<bool> ConfirmAsync(string title, string message)
         => MainThread.InvokeOnMainThreadAsync(async () =>
         {
-            if (Application.Current?.MainPage is null)
+            var app = Application.Current;
+            if (app?.Windows.Count == 0)
                 return false;
 
-            return await Application.Current.MainPage.DisplayAlert(title, message, "Delete", "Cancel");
+            var page = app?.Windows[0].Page;
+            if (page is null)
+                return false;
+
+            return await page.DisplayAlertAsync(title, message, "Delete", "Cancel").ConfigureAwait(false);
         });
 }
 

@@ -1,11 +1,19 @@
-namespace Dadstart.Labs.Blutracker;
+using Microsoft.Extensions.DependencyInjection;
 
-public partial class App : Application
+namespace Dadstart.Labs.Blutracker
 {
-    public App(AppShell shell)
+    public partial class App : Application
     {
-        InitializeComponent();
-        MainPage = shell;
+        public App()
+        {
+            InitializeComponent();
+        }
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            var shell = Handler.MauiContext?.Services.GetRequiredService<AppShell>();
+            return new Window(shell ?? new AppShell());
+        }
     }
 }
 

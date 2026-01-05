@@ -4,6 +4,7 @@
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Dadstart.Labs.Blutracker</RootNamespace>
 
     <ApplicationTitle>Blutracker</ApplicationTitle>
     <ApplicationId>com.dadstart.labs.blutracker</ApplicationId>
@@ -15,15 +16,19 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'windows'">
-    <TargetFrameworks>net8.0-android;net8.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-windows10.0.19041.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'osx'">
-    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildRuntimeOS)' == 'linux'">
-    <TargetFrameworks>net8.0-android</TargetFrameworks>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFrameworks)' == ''">
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +41,8 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
