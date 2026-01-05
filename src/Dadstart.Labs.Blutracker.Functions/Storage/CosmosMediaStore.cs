@@ -88,6 +88,18 @@ public sealed class CosmosMediaStore
 
     public async Task DeleteTvShowAsync(Guid id, CancellationToken cancellationToken)
     {
+        // Manual cascade: seasons are stored in a separate container.
+        var seasonsContainer = await _seasons.Value.ConfigureAwait(false);
+        var seasonsIterator = seasonsContainer.GetItemQueryIterator<SeasonDocument>(
+            new QueryDefinition("SELECT * FROM c WHERE c.tvShowId = @tvShowId")
+                .WithParameter("@tvShowId", id.ToString("D")));
+
+        while (seasonsIterator.HasMoreResults)
+        {
+            foreach (var season in await seasonsIterator.ReadNextAsync(cancellationToken).ConfigureAwait(false))
+                _ = await seasonsContainer.DeleteItemAsync<SeasonDocument>(season.id, new PartitionKey(season.id), cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+
         var container = await _tvShows.Value.ConfigureAwait(false);
         _ = await container.DeleteItemAsync<TvShowDocument>(id.ToString("D"), new PartitionKey(id.ToString("D")), cancellationToken: cancellationToken).ConfigureAwait(false);
     }
@@ -107,6 +119,13 @@ public sealed class CosmosMediaStore
         }
 
         return results;
+    }
+
+    public async Task<Season?> GetSeasonAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var container = await _seasons.Value.ConfigureAwait(false);
+        var doc = await TryReadAsync<SeasonDocument>(container, id, cancellationToken).ConfigureAwait(false);
+        return doc?.ToModel();
     }
 
     public async Task UpsertSeasonAsync(Season season, CancellationToken cancellationToken)

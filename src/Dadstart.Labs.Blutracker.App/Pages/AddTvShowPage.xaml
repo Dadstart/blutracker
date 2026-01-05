@@ -3,7 +3,7 @@
     x:Class="Dadstart.Labs.Blutracker.Pages.AddTvShowPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Add TV show">
+    Title="{Binding PageTitle}">
 
     <VerticalStackLayout Padding="16" Spacing="12">
         <Label FontSize="18" Text="TV show details" />

@@ -14,11 +14,15 @@ public partial class AddSeasonPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!query.TryGetValue("tvShowId", out var raw))
-            return;
+        if (query.TryGetValue("tvShowId", out var rawTvShowId) &&
+            rawTvShowId is string tvShowIdText &&
+            Guid.TryParse(tvShowIdText, out var tvShowId))
+            _viewModel.TvShowId = tvShowId;
 
-        if (raw is string text && Guid.TryParse(text, out var parsed))
-            _viewModel.TvShowId = parsed;
+        if (query.TryGetValue("seasonId", out var rawSeasonId) &&
+            rawSeasonId is string seasonIdText &&
+            Guid.TryParse(seasonIdText, out var seasonId))
+            _ = _viewModel.LoadAsync(seasonId);
     }
 }
 

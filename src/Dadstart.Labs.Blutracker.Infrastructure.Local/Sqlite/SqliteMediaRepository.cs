@@ -235,6 +235,33 @@ public sealed class SqliteMediaRepository : IMediaRepository
         return results;
     }
 
+    public async Task<Season?> GetSeasonAsync(Guid id, CancellationToken cancellationToken)
+    {
+        await EnsureSchemaAsync(cancellationToken).ConfigureAwait(false);
+
+        await using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+                             SELECT Id, TvShowId, SeasonNumber, EpisodeCount, CreatedAt
+                             FROM Seasons
+                             WHERE Id = $id;
+                             """;
+        command.Parameters.AddWithValue("$id", id.ToString("D"));
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+        if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+            return null;
+
+        var tvShowId = Guid.Parse(reader.GetString(1));
+        var seasonNumber = reader.GetInt32(2);
+        int? episodeCount = reader.IsDBNull(3) ? null : reader.GetInt32(3);
+        var createdAt = DateTimeOffset.Parse(reader.GetString(4));
+
+        return new Season(id, tvShowId, seasonNumber, episodeCount, createdAt);
+    }
+
     public async Task UpsertSeasonAsync(Season season, CancellationToken cancellationToken)
     {
         await EnsureSchemaAsync(cancellationToken).ConfigureAwait(false);

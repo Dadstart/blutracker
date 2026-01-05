@@ -47,10 +47,18 @@ public sealed class SqliteMediaRepositoryTests
             var seasonsBefore = await repository.ListSeasonsAsync(show.Id, CancellationToken.None);
             Assert.Single(seasonsBefore);
 
+            var fetched = await repository.GetSeasonAsync(season.Id, CancellationToken.None);
+            Assert.NotNull(fetched);
+            Assert.Equal(season.Id, fetched!.Id);
+            Assert.Equal(show.Id, fetched.TvShowId);
+
             await repository.DeleteTvShowAsync(show.Id, CancellationToken.None);
 
             var seasonsAfter = await repository.ListSeasonsAsync(show.Id, CancellationToken.None);
             Assert.Empty(seasonsAfter);
+
+            var fetchedAfterDelete = await repository.GetSeasonAsync(season.Id, CancellationToken.None);
+            Assert.Null(fetchedAfterDelete);
         }
         finally
         {

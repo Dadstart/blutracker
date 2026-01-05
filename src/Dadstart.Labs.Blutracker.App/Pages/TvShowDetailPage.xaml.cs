@@ -2,11 +2,11 @@ using Dadstart.Labs.Blutracker.ViewModels;
 
 namespace Dadstart.Labs.Blutracker.Pages;
 
-public partial class AddTvShowPage : ContentPage, IQueryAttributable
+public partial class TvShowDetailPage : ContentPage, IQueryAttributable
 {
-    readonly AddTvShowViewModel _viewModel;
+    readonly TvShowDetailViewModel _viewModel;
 
-    public AddTvShowPage(AddTvShowViewModel viewModel)
+    public TvShowDetailPage(TvShowDetailViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
@@ -14,11 +14,17 @@ public partial class AddTvShowPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!query.TryGetValue("id", out var raw))
+        if (!query.TryGetValue("tvShowId", out var raw))
             return;
 
         if (raw is string text && Guid.TryParse(text, out var parsed))
             _ = _viewModel.LoadAsync(parsed);
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.RefreshCommand.ExecuteAsync(null).ConfigureAwait(false);
     }
 }
 

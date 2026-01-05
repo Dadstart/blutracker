@@ -16,10 +16,32 @@
             <CollectionView ItemsSource="{Binding Movies}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <VerticalStackLayout Padding="8" Spacing="2">
-                            <Label FontAttributes="Bold" Text="{Binding Title}" />
-                            <Label FontSize="12" Opacity="0.7" Text="{Binding ReleaseYear}" />
-                        </VerticalStackLayout>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem
+                                        Text="Edit"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditMovieCommand}"
+                                        CommandParameter="{Binding .}" />
+                                    <SwipeItem
+                                        Text="Delete"
+                                        BackgroundColor="#B00020"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteMovieCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Grid Padding="8" RowDefinitions="Auto,Auto">
+                                <Label FontAttributes="Bold" Text="{Binding Title}" />
+                                <Label Grid.Row="1" FontSize="12" Opacity="0.7" Text="{Binding ReleaseYear}" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditMovieCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -34,14 +56,31 @@
             <CollectionView ItemsSource="{Binding TvShows}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="8" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
-                            <Label FontAttributes="Bold" Text="{Binding Title}" />
-                            <Button
-                                Grid.Column="1"
-                                Text="Add season"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddSeasonCommand}"
-                                CommandParameter="{Binding Id}" />
-                        </Grid>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem
+                                        Text="Edit"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditTvShowCommand}"
+                                        CommandParameter="{Binding .}" />
+                                    <SwipeItem
+                                        Text="Delete"
+                                        BackgroundColor="#B00020"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteTvShowCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Grid Padding="8">
+                                <Label FontAttributes="Bold" Text="{Binding Title}" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenTvShowCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

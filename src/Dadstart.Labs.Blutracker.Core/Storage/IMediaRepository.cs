@@ -15,6 +15,7 @@ public interface IMediaRepository
     Task DeleteTvShowAsync(Guid id, CancellationToken cancellationToken);
 
     Task<IReadOnlyList<Season>> ListSeasonsAsync(Guid tvShowId, CancellationToken cancellationToken);
+    Task<Season?> GetSeasonAsync(Guid id, CancellationToken cancellationToken);
     Task UpsertSeasonAsync(Season season, CancellationToken cancellationToken);
     Task DeleteSeasonAsync(Guid id, CancellationToken cancellationToken);
 }

@@ -33,8 +33,29 @@ public static class MauiProgram
             if (string.IsNullOrWhiteSpace(baseUriString))
                 throw new InvalidOperationException("Set BLUTRACKER_API_BASEURI (e.g. https://your-function.azurewebsites.net/).");
 
-            var apiKey = Environment.GetEnvironmentVariable("BLUTRACKER_API_KEY");
-            var options = new AzureMediaRepositoryOptions(new Uri(baseUriString), apiKey);
+            var baseUri = new Uri(baseUriString);
+            var authMode = (Environment.GetEnvironmentVariable("BLUTRACKER_AUTH_MODE") ?? "FunctionKey").Trim();
+
+            AzureMediaRepositoryOptions options;
+
+            if (authMode.Equals("Bearer", StringComparison.OrdinalIgnoreCase) ||
+                authMode.Equals("BearerToken", StringComparison.OrdinalIgnoreCase))
+            {
+                var token = Environment.GetEnvironmentVariable("BLUTRACKER_BEARER_TOKEN");
+                options = AzureMediaRepositoryOptions.BearerTokenAuth(baseUri, token ?? string.Empty);
+            }
+            else if (authMode.Equals("None", StringComparison.OrdinalIgnoreCase) ||
+                     authMode.Equals("Anonymous", StringComparison.OrdinalIgnoreCase))
+            {
+                options = AzureMediaRepositoryOptions.Anonymous(baseUri);
+            }
+            else
+            {
+                var functionKey = Environment.GetEnvironmentVariable("BLUTRACKER_FUNCTION_KEY") ??
+                                  Environment.GetEnvironmentVariable("BLUTRACKER_API_KEY");
+                options = AzureMediaRepositoryOptions.FunctionKeyAuth(baseUri, functionKey ?? string.Empty);
+            }
+
             return new HttpMediaRepository(httpClient, options);
         });
 #endif
@@ -43,12 +64,14 @@ public static class MauiProgram
         builder.Services.AddTransient<AddMovieViewModel>();
         builder.Services.AddTransient<AddTvShowViewModel>();
         builder.Services.AddTransient<AddSeasonViewModel>();
+        builder.Services.AddTransient<TvShowDetailViewModel>();
 
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddSingleton<Pages.LibraryPage>();
         builder.Services.AddTransient<Pages.AddMoviePage>();
         builder.Services.AddTransient<Pages.AddTvShowPage>();
         builder.Services.AddTransient<Pages.AddSeasonPage>();
+        builder.Services.AddTransient<Pages.TvShowDetailPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

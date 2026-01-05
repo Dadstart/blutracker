@@ -23,7 +23,15 @@ The MAUI app uses SQLite when built as **Debug** (`#if DEBUG`). The database fil
 Non-Debug builds of the MAUI app use the Azure-backed repository. Configure these environment variables at runtime:
 
 - `BLUTRACKER_API_BASEURI`: base URL of your Functions host (example: `https://your-app.azurewebsites.net/`)
-- `BLUTRACKER_API_KEY`: function key (optional, depending on your hosting/auth strategy)
+- `BLUTRACKER_AUTH_MODE`: `FunctionKey` (default), `Bearer`, or `None`
+
+If using **Function keys**:
+
+- `BLUTRACKER_FUNCTION_KEY` (preferred) or `BLUTRACKER_API_KEY` (legacy)
+
+If using **Entra ID / bearer tokens** (e.g. via App Service Authentication / EasyAuth):
+
+- `BLUTRACKER_BEARER_TOKEN`
 
 The Functions project uses:
 

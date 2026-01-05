@@ -47,11 +47,57 @@ public sealed partial class LibraryViewModel : ObservableObject
         => Shell.Current.GoToAsync(nameof(Pages.AddMoviePage));
 
     [RelayCommand]
+    Task EditMovieAsync(Movie movie)
+        => Shell.Current.GoToAsync($"{nameof(Pages.AddMoviePage)}?id={movie.Id:D}");
+
+    [RelayCommand]
+    async Task DeleteMovieAsync(Movie movie)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            await _repository.DeleteMovieAsync(movie.Id, CancellationToken.None).ConfigureAwait(false);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+        await RefreshAsync().ConfigureAwait(false);
+    }
+
+    [RelayCommand]
     Task AddTvShowAsync()
         => Shell.Current.GoToAsync(nameof(Pages.AddTvShowPage));
 
     [RelayCommand]
-    Task AddSeasonAsync(Guid tvShowId)
-        => Shell.Current.GoToAsync($"{nameof(Pages.AddSeasonPage)}?tvShowId={tvShowId:D}");
+    Task EditTvShowAsync(TvShow tvShow)
+        => Shell.Current.GoToAsync($"{nameof(Pages.AddTvShowPage)}?id={tvShow.Id:D}");
+
+    [RelayCommand]
+    async Task DeleteTvShowAsync(TvShow tvShow)
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            await _repository.DeleteTvShowAsync(tvShow.Id, CancellationToken.None).ConfigureAwait(false);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+        await RefreshAsync().ConfigureAwait(false);
+    }
+
+    [RelayCommand]
+    Task OpenTvShowAsync(TvShow tvShow)
+        => Shell.Current.GoToAsync($"{nameof(Pages.TvShowDetailPage)}?tvShowId={tvShow.Id:D}");
 }
 

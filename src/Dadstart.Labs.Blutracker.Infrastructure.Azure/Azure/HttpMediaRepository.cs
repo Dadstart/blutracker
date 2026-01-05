@@ -18,8 +18,26 @@ public sealed class HttpMediaRepository : IMediaRepository
 
         _httpClient.BaseAddress = options.BaseUri;
 
-        if (!string.IsNullOrWhiteSpace(options.ApiKey))
-            _httpClient.DefaultRequestHeaders.Add("x-api-key", options.ApiKey);
+        switch (options.AuthMode)
+        {
+            case AzureApiAuthMode.None:
+                break;
+            case AzureApiAuthMode.FunctionKey:
+                if (string.IsNullOrWhiteSpace(options.FunctionKey))
+                    throw new ArgumentException("FunctionKey is required when using FunctionKey auth.", nameof(options));
+
+                // Azure Functions standard header name for function keys.
+                _httpClient.DefaultRequestHeaders.Add("x-functions-key", options.FunctionKey);
+                break;
+            case AzureApiAuthMode.BearerToken:
+                if (string.IsNullOrWhiteSpace(options.BearerToken))
+                    throw new ArgumentException("BearerToken is required when using BearerToken auth.", nameof(options));
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", options.BearerToken);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(options), $"Unsupported auth mode: {options.AuthMode}");
+        }
 
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
@@ -50,6 +68,9 @@ public sealed class HttpMediaRepository : IMediaRepository
 
     public async Task<IReadOnlyList<Season>> ListSeasonsAsync(Guid tvShowId, CancellationToken cancellationToken)
         => await GetAsync<IReadOnlyList<Season>>($"api/tvshows/{tvShowId:D}/seasons", cancellationToken).ConfigureAwait(false) ?? Array.Empty<Season>();
+
+    public async Task<Season?> GetSeasonAsync(Guid id, CancellationToken cancellationToken)
+        => await GetAsync<Season>($"api/seasons/{id:D}", cancellationToken).ConfigureAwait(false);
 
     public async Task UpsertSeasonAsync(Season season, CancellationToken cancellationToken)
         => await PutAsync($"api/tvshows/{season.TvShowId:D}/seasons/{season.Id:D}", season, cancellationToken).ConfigureAwait(false);

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Dadstart.Labs.Blutracker.Pages.TvShowDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+
+    <VerticalStackLayout Padding="16" Spacing="16">
+
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Add season" Command="{Binding AddSeasonCommand}" />
+            <Button Text="Edit show" Command="{Binding EditTvShowCommand}" />
+            <Button Text="Delete show" BackgroundColor="#B00020" Command="{Binding DeleteTvShowCommand}" />
+        </HorizontalStackLayout>
+
+        <Label FontSize="22" Text="Seasons" />
+
+        <CollectionView ItemsSource="{Binding Seasons}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem
+                                    Text="Edit"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditSeasonCommand}"
+                                    CommandParameter="{Binding .}" />
+                                <SwipeItem
+                                    Text="Delete"
+                                    BackgroundColor="#B00020"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteSeasonCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="8" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+                            <Label FontAttributes="Bold" Text="{Binding SeasonNumber, StringFormat='S{0}'}" />
+                            <Label Grid.Column="1" FontAttributes="Bold" Text=" " />
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" FontSize="12" Opacity="0.7" Text="{Binding EpisodeCount, StringFormat='Episodes: {0}'}" />
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditSeasonCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>
+
