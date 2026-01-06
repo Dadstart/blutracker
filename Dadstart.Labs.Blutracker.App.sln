@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B92AB73B-DF4B-44B6-9965-1851E6BD6DB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dadstart.Labs.Blutracker.App", "src\Dadstart.Labs.Blutracker.App\Dadstart.Labs.Blutracker.App.csproj", "{41D8B4BD-44DA-44C3-8B7F-2939F84B5420}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dadstart.Labs.Blutracker.Core", "src\Dadstart.Labs.Blutracker.Core\Dadstart.Labs.Blutracker.Core.csproj", "{DBA03E3D-315C-4653-B776-5D2A56B719BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dadstart.Labs.Blutracker.Infrastructure.Local", "src\Dadstart.Labs.Blutracker.Infrastructure.Local\Dadstart.Labs.Blutracker.Infrastructure.Local.csproj", "{F1EAF6CC-B20A-4B45-A9C3-4823A4826097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dadstart.Labs.Blutracker.Infrastructure.Azure", "src\Dadstart.Labs.Blutracker.Infrastructure.Azure\Dadstart.Labs.Blutracker.Infrastructure.Azure.csproj", "{08711EE7-0472-4659-8C94-6CE550D4780E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41D8B4BD-44DA-44C3-8B7F-2939F84B5420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D8B4BD-44DA-44C3-8B7F-2939F84B5420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D8B4BD-44DA-44C3-8B7F-2939F84B5420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41D8B4BD-44DA-44C3-8B7F-2939F84B5420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA03E3D-315C-4653-B776-5D2A56B719BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA03E3D-315C-4653-B776-5D2A56B719BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA03E3D-315C-4653-B776-5D2A56B719BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA03E3D-315C-4653-B776-5D2A56B719BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1EAF6CC-B20A-4B45-A9C3-4823A4826097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1EAF6CC-B20A-4B45-A9C3-4823A4826097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1EAF6CC-B20A-4B45-A9C3-4823A4826097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1EAF6CC-B20A-4B45-A9C3-4823A4826097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08711EE7-0472-4659-8C94-6CE550D4780E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08711EE7-0472-4659-8C94-6CE550D4780E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08711EE7-0472-4659-8C94-6CE550D4780E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08711EE7-0472-4659-8C94-6CE550D4780E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41D8B4BD-44DA-44C3-8B7F-2939F84B5420} = {B92AB73B-DF4B-44B6-9965-1851E6BD6DB9}
+		{DBA03E3D-315C-4653-B776-5D2A56B719BB} = {B92AB73B-DF4B-44B6-9965-1851E6BD6DB9}
+		{F1EAF6CC-B20A-4B45-A9C3-4823A4826097} = {B92AB73B-DF4B-44B6-9965-1851E6BD6DB9}
+		{08711EE7-0472-4659-8C94-6CE550D4780E} = {B92AB73B-DF4B-44B6-9965-1851E6BD6DB9}
+	EndGlobalSection
+EndGlobal
